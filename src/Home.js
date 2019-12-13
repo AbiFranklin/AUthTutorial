@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 class Home extends Component {
   render() {
@@ -9,12 +9,11 @@ class Home extends Component {
         <h1>Home</h1>
         {isAuthenticated() ? (
           <Link to="/profile">View Profile</Link>
-        ) :
-          (
-            <button onClick={login}>Log In</button>
-          )}
+        ) : (
+          <button onClick={login}>Log In</button>
+        )}
       </>
-    )
+    );
   }
 }
 
