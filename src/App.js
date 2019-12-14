@@ -8,6 +8,7 @@ import Callback from "./Callback";
 import Public from "./Public";
 import Private from "./Private";
 import Courses from "./Courses";
+import PrivateRoute from "./PrivateRoute"
 
 class App extends Component {
   constructor(props) {
@@ -20,46 +21,12 @@ class App extends Component {
       <div>
         <NavBar auth={this.auth} />
         <div className="body">
-          <Route
-            path="/"
-            exact
-            render={props => <Home auth={this.auth} {...props} />}
-          />
-          <Route
-            path="/profile"
-            render={props =>
-              this.auth.isAuthenticated() ? (
-                <Profile auth={this.auth} {...props} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
-          />
+          <PrivateRoute path="/" exact component={Home} auth={this.auth} />
+          <PrivateRoute path="/profile" component={Profile} auth={this.auth} />
           <Route path="/public" component={Public} />
-          <Route
-            path="/private"
-            render={props =>
-              this.auth.isAuthenticated() ? (
-                <Private auth={this.auth} {...props} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
-          />
-          <Route
-            path="/courses"
-            render={props =>
-              this.auth.isAuthenticated() ? (
-                <Courses auth={this.auth} {...props} />
-              ) : (
-                <Redirect to="/" />
-              )
-            }
-          />
-          <Route
-            path="/callback"
-            render={props => <Callback auth={this.auth} {...props} />}
-          />
+          <PrivateRoute path="/private" component={Private} auth={this.auth} />
+          <PrivateRoute path="/courses" scopes={["read:courses"]} component={Courses} auth={this.auth} />
+          <PrivateRoute path="/callback" component={Callback} auth={this.auth} />
         </div>
       </div>
     );
