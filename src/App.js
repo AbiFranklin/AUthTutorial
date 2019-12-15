@@ -15,16 +15,24 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: new Auth(this.props.history)
+      auth: new Auth(this.props.history),
+      tokenRenewalComplete: false
     }
+  }
+
+  componentDidMount() {
+    this.state.auth.renewToken(() => {
+      this.setState({ tokenRenewalComplete: true })
+    })
   }
 
   render() {
     const { auth } = this.state;
+    //if (!this.state.tokenRenewalComplete) return <h1>Loading...</h1>
     return (
       <AuthContext.Provider value={auth}>
         <div>
-          <NavBar auth={auth}/>
+          <NavBar auth={auth} />
           <div className="body">
             <PrivateRoute path="/" exact component={Home} />
             <PrivateRoute path="/profile" component={Profile} />
